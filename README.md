@@ -2,20 +2,20 @@
 
 **An end-to-end retail analytics platform built using Python, FastAPI, Streamlit, DuckDB and Plotly.**
 
-RevenueLeak analyzes the [Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii) to help businesses understand revenue performance, identify cancellation patterns, analyze customer behavior and discover product associations.
+RevenueLeak analyzes the [Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii) to help businesses understand revenue performance, identify cancellation patterns, analyze customer behavior, and discover product associations.
 
-The project transforms raw retail transaction data into actionable business insights through a data processing pipeline, REST APIs and an interactive analytics dashboard.
+The project transforms raw retail transaction data into actionable business insights through a data processing pipeline, REST APIs, and an interactive analytics dashboard.
 
 ---
 
 ## Project Overview
 
-Online retailers generate large volumes of transaction data, but identifying revenue patterns, customer behavior and cancellation trends can be challenging.
+Online retailers generate large volumes of transaction data, but identifying revenue patterns, customer behavior, and cancellation trends can be challenging.
 
 RevenueLeak addresses this problem through an automated analytics workflow that:
 
 - Cleans and validates raw retail transaction data.
-- Calculates sales, cancellation values and net gross revenue.
+- Calculates sales, cancellation values, and net gross revenue.
 - Analyzes monthly and country-wise revenue performance.
 - Identifies high-performing and frequently cancelled products.
 - Segments customers using RFM analysis.
@@ -40,7 +40,49 @@ RevenueLeak addresses this problem through an automated analytics workflow that:
 
 ## System Architecture
 
-![alt text](mermaid-diagram.png)
+```mermaid
+flowchart TD
+    A[Online Retail II Dataset] --> B[Data Cleaning - Pandas]
+    B --> C[Cleaned Parquet Data]
+    C --> D[DuckDB]
+
+    D --> E[FastAPI Backend]
+    E --> F[REST API Endpoints]
+
+    D --> G[Analytics Scripts]
+    G --> H[RFM Analysis]
+    G --> I[FP-Growth Market Basket Analysis]
+
+    H --> J[Customer RFM CSV]
+    I --> K[Association Rules CSV]
+
+    D --> L[Streamlit Dashboard]
+    J --> L
+    K --> L
+
+    L --> M[Business Insights]
+    G --> N[PDF Business Report]
+```
+
+## Dashboard & Analysis Visualizations
+
+The following visualizations are generated from the processed retail dataset.
+
+### Monthly Revenue Trends
+
+![Monthly Revenue](reports/charts/monthly_revenue.png)
+
+### Country-wise Revenue Distribution
+
+![Country Revenue](reports/charts/country_revenue.png)
+
+### Customer Segmentation (RFM)
+
+![RFM Segments](reports/charts/rfm_segments.png)
+
+### Product Cancellation Analysis
+
+![Cancellation Products](reports/charts/cancellation_products.png)
 
 ## Dataset
 
@@ -109,9 +151,11 @@ The following findings were calculated from the processed dataset.
 
 ### 1. Revenue Performance
 
-Total Sales Value: £20.48 million
-Cancellation Value: £1.46 million
-Preliminary Net Gross Revenue: £19.01 million
+| Metric | Value |
+|---|---:|
+| Total Sales Value | £20.48 million |
+| Identified Cancellation Value | £1.46 million |
+| Preliminary Net Gross Revenue | £19.01 million |
 
 ### 2. Geographic Revenue Distribution
 
@@ -122,10 +166,12 @@ Preliminary Net Gross Revenue: £19.01 million
 
 RFM analysis identified 5,878 customers.
 
-- 1,299 Champions.
-- 707 Loyal Customers.
-- 820 At Risk customers.
-- 1,531 Hibernating customers.
+| Customer Segment | Customers |
+|---|---:|
+| Champions | 1,299 |
+| Loyal Customers | 707 |
+| At Risk | 820 |
+| Hibernating | 1,531 |
 
 Approximately 40% of identified customers fall into the At Risk or Hibernating segments.
 
@@ -137,7 +183,7 @@ For example, purchasing Poppy's Playhouse Bedroom and Kitchen products was assoc
 
 ### 5. Customer Data Quality
 
-Approximately 2.72 million in sales value is associated with transactions missing Customer IDs. This limits customer-level analysis coverage.
+Approximately £2.72 million in sales value is associated with transactions missing Customer IDs. This limits customer-level analysis coverage.
 
 ## Business Recommendations
 
@@ -162,14 +208,16 @@ Revenue_Leak_project/
 │
 ├── data/
 │   ├── raw/
-│   │   └──.gitkeep
-│   │
+│   │   └── .gitkeep
 │   └── processed/
-│       ├──.gitkeep
-│       
+│       └── .gitkeep
 │
 ├── reports/
 │   ├── charts/
+│   │   ├── monthly_revenue.png
+│   │   ├── country_revenue.png
+│   │   ├── rfm_segments.png
+│   │   └── cancellation_products.png
 │   └── RevenueLeak_Business_Analysis_Report.pdf
 │
 ├── scripts/
@@ -195,6 +243,8 @@ Revenue_Leak_project/
 ├── .gitignore
 └── README.md
 ```
+
+**Note:** Raw datasets and generated processed data files are excluded from GitHub to keep the repository lightweight. The `.gitkeep` files preserve the directory structure. Download the original dataset and run the processing scripts to regenerate the analytical files.
 
 ## Installation & Setup
 
@@ -231,15 +281,15 @@ pip install -r requirements.txt
 
 ### 4. Download the dataset
 
-Download Online Retail II from the UCI Machine Learning Repository.
+Download Online Retail II from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/502/online+retail+ii).
 
-Place the dataset in:
+Place the CSV dataset at:
 
 ```text
 data/raw/online_retail_II.csv
 ```
 
-Use the appropriate CSV export and filename expected by the cleaning script.
+Use the CSV export and filename expected by the cleaning script.
 
 ### 5. Run the data processing pipeline
 
@@ -265,13 +315,9 @@ python scripts/market_basket_analysis.py
 uvicorn api.main:app --reload
 ```
 
-Backend URL:
+Backend URL: http://127.0.0.1:8000
 
-`http://127.0.0.1:8000`
-
-Swagger API documentation:
-
-`http://127.0.0.1:8000/docs`
+Swagger API documentation: http://127.0.0.1:8000/docs
 
 ### 9. Start the Streamlit dashboard
 
@@ -281,9 +327,7 @@ Open a second terminal and run:
 streamlit run dashboard/app.py
 ```
 
-Dashboard URL:
-
-`http://localhost:8501`
+Dashboard URL: http://localhost:8501
 
 ## API Endpoints
 
@@ -315,11 +359,9 @@ The API test suite currently includes 10 passing tests.
 
 A PDF business analysis report is generated using ReportLab.
 
-Expected location:
+**Location:**
 
-```text
-reports/RevenueLeak_Business_Analysis_Report.pdf
-```
+`reports/RevenueLeak_Business_Analysis_Report.pdf`
 
 The report covers:
 
