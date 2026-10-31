@@ -40,41 +40,7 @@ RevenueLeak addresses this problem through an automated analytics workflow that:
 
 ## System Architecture
 
-```text
-                 Online Retail II Dataset
-                           |
-                           v
-                   Data Cleaning
-                     (Pandas)
-                           |
-                           v
-                Processed Parquet Data
-                           |
-                           v
-                      DuckDB
-                           |
-              +------------+------------+
-              |                         |
-              v                         v
-         FastAPI Backend          Analytics Scripts
-              |                         |
-              v                  +------+------+
-         REST Endpoints           |             |
-              |                   v             v
-              |              RFM Analysis   FP-Growth
-              |                   |             |
-              |                   v             v
-              |              Customer      Association
-              |              Segments         Rules
-              |                   |             |
-              +-------------------+-------------+
-                                  |
-                                  v
-                         Streamlit Dashboard
-                                  |
-                                  v
-                       Business Insights & Reports
-```
+![alt text](mermaid-diagram.png)
 
 ## Dataset
 
@@ -143,9 +109,9 @@ The following findings were calculated from the processed dataset.
 
 ### 1. Revenue Performance
 
-- Total Sales Value: approximately 20.48 million.
-- Identified Cancellation Value: approximately 1.46 million.
-- Preliminary Net Gross Revenue: approximately 19.01 million.
+Total Sales Value: £20.48 million
+Cancellation Value: £1.46 million
+Preliminary Net Gross Revenue: £19.01 million
 
 ### 2. Geographic Revenue Distribution
 
@@ -196,13 +162,11 @@ Revenue_Leak_project/
 │
 ├── data/
 │   ├── raw/
-│   │   └── online_retail_II.csv
+│   │   └──.gitkeep
 │   │
 │   └── processed/
-│       ├── online_retail_cleaned.parquet
-│       ├── customer_rfm.csv
-│       ├── frequent_itemsets.csv
-│       └── association_rules.csv
+│       ├──.gitkeep
+│       
 │
 ├── reports/
 │   ├── charts/
@@ -237,7 +201,7 @@ Revenue_Leak_project/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/RevenueLeak.git
+git clone https://github.com/aditya157451/RevenueLeak.git
 cd RevenueLeak
 ```
 
